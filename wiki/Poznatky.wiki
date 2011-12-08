@@ -17,4 +17,6 @@ http://www.ripon.edu/academics/macs/summation/2010/articles/M.%20Madsen%20-%20Li
 
 http://people.math.sfu.ca/~jtmulhol/math302/notes/24-Lights-Out.pdf
 
+http://www.gersolutions.com/lightsout/indexjava.html
+
 Takže řešení bude myslím bez problémů :)
