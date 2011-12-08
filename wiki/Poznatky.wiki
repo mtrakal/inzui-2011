@@ -11,7 +11,7 @@
 
 http://www.jaapsch.net/puzzles/lights.htm
 
-http://www.jaapsch.net/puzzles/lights.htm#solution - je tam JavaScriptové hra s ukázkou (červeně) kam kliknout pro vyřešení :)
+http://www.jaapsch.net/puzzles/lights.htm#solution - je tam JavaScriptová hra s ukázkou (červeně) kam kliknout pro vyřešení :)
 
 http://www.ripon.edu/academics/macs/summation/2010/articles/M.%20Madsen%20-%20Lights%20Out.pdf
 
