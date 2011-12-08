@@ -1,4 +1,6 @@
 #Poznatky, jak na to :)
 
 = Návody =
-* http://en.wikipedia.org/wiki/Conway's_Game_of_Life
+* [http://en.wikipedia.org/wiki/Conway's_Game_of_Life]
+* [http://en.wikipedia.org/wiki/Gaussian_elimination | Gausova eliminace, slouží k řešení puzzle a tohohle prej]
+* [http://en.wikipedia.org/wiki/Lights_Out_(game)]
