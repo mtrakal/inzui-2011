@@ -3,8 +3,8 @@ Je dáno pole o rozměrech 5x5. Každá buňka tohoto pole může nabývat hodno
 Úkolem je co nejmenším počtem tahů nastavit všechny buňky na 0. 
 Výchozí stav: Levá horní buňka s hodnotou 1, pole o velikosti 5x5.
 
-||1||0||0||0||0||
-||0||0||0||0||0||
-||0||0||0||0||0||
-||0||0||0||0||0||
-||0||0||0||0||0||
+|| 1 || 0 || 0 || 0 || 0 ||
+|| 0 || 0 || 0 || 0 || 0 ||
+|| 0 || 0 || 0 || 0 || 0 ||
+|| 0 || 0 || 0 || 0 || 0 ||
+|| 0 || 0 || 0 || 0 || 0 ||
