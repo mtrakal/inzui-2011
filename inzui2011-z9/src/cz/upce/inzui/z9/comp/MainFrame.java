@@ -25,8 +25,8 @@ public final class MainFrame extends JFrame {
     public static final String LOG4J_CONSOLE_LOGGER = "console";
     public static final String LOG4J_AWTCONSOLE_APPENDER = "AWTCONSOLE";
     public static final String LOG4J_APP_LOGGER = "app";
-    public static int P_WIDTH = 800;
-    public static int P_HEIGHT = 600;
+    public static int P_WIDTH = 200;
+    public static int P_HEIGHT = 300;
     private PanelCrossroads crossroads;
     //
     private JButton exitButton = new JButton();
@@ -72,7 +72,7 @@ public final class MainFrame extends JFrame {
     }
 
     private JPanel initBottomPanel() {
-        JPanel bottomPanel = new JPanel(new GridLayout(0, 6, 4, 4));
+        JPanel bottomPanel = new JPanel(new GridLayout(0, 2, 4, 4));
         bottomPanel.setBackground(Color.gray);
         this.add(bottomPanel, BorderLayout.SOUTH);
         ////

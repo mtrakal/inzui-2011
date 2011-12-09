@@ -31,6 +31,7 @@ public class InfoPanel extends JPanel {
         this.setBackground(Color.gray);
         this.setLayout(new BorderLayout());
         PropertyConfigurator.configure("log4j.properties.txt");
+        this.setPreferredSize(new Dimension(168, 80));
         jScrollPanel.setViewportView(jTextAreaConsole);
         this.add(jScrollPanel, BorderLayout.CENTER);
         jTextAreaAppender = (JTextAreaAppender) Logger.getLogger(MainFrame.LOG4J_CONSOLE_LOGGER).getAppender(MainFrame.LOG4J_AWTCONSOLE_APPENDER);
