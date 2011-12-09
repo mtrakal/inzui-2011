@@ -4,8 +4,10 @@
  */
 package cz.upce.inzui.z9.comp;
 
+import cz.upce.inzui.z9.array.PanelArray;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import javax.swing.JPanel;
-import net.miginfocom.swing.MigLayout;
 
 /**
  *
@@ -13,11 +15,14 @@ import net.miginfocom.swing.MigLayout;
  */
 public class PanelCrossroads extends JPanel {
 
-    InfoPanel infoPanel = new InfoPanel();
+    private InfoPanel infoPanel = new InfoPanel();
+    private PanelArray panelArray = new PanelArray();
 
     public PanelCrossroads() {
-        this.setLayout(new MigLayout());
-        this.add(infoPanel);
+        this.setLayout(new BorderLayout());
+        this.setBackground(Color.gray);
+        this.add(panelArray, BorderLayout.CENTER);
+        this.add(infoPanel, BorderLayout.SOUTH);
         infoPanel.loggMessage("Ahoj tak uz nejak zacnem ne?");
     }
 }
