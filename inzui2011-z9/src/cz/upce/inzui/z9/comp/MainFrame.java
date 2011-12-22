@@ -10,10 +10,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Toolkit;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
+import javax.swing.*;
+import javax.swing.border.BevelBorder;
 
 /**
  *
@@ -25,22 +23,29 @@ public final class MainFrame extends JFrame {
     public static final String LOG4J_CONSOLE_LOGGER = "console";
     public static final String LOG4J_AWTCONSOLE_APPENDER = "AWTCONSOLE";
     public static final String LOG4J_APP_LOGGER = "app";
-    public static int P_WIDTH = 200;
-    public static int P_HEIGHT = 300;
+    public static int P_WIDTH = 410;
+    public static int P_HEIGHT = 410;
     private PanelCrossroads crossroads;
     //
     private JButton exitButton = new JButton();
+    private JButton initButton = new JButton();
+    private JButton stopButton = new JButton();
     private JButton startButton = new JButton();
+    private JRadioButton buttonOne = new JRadioButton("One");
+    private JRadioButton buttonCross = new JRadioButton("Cross");
+    private ButtonGroup buttonGroup = new ButtonGroup();
 
     public MainFrame() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("INZUI 2011");
         this.setSize(new Dimension(P_WIDTH, P_HEIGHT));
         setLocationOnMiddle();
-        crossroads = new PanelCrossroads();
+        buttonGroup.add(buttonOne);
+        buttonGroup.add(buttonCross);
+        crossroads = new PanelCrossroads(this);
         this.setLayout(new BorderLayout());
         this.add(crossroads, BorderLayout.CENTER);
-        this.add(initBottomPanel(), BorderLayout.SOUTH);
+        this.add(initEastPanel(), BorderLayout.EAST);
     }
 
     public void setLocationOnMiddle() {
@@ -71,21 +76,26 @@ public final class MainFrame extends JFrame {
         });
     }
 
-    private JPanel initBottomPanel() {
-        JPanel bottomPanel = new JPanel(new GridLayout(0, 2, 4, 4));
-        bottomPanel.setBackground(Color.gray);
-        this.add(bottomPanel, BorderLayout.SOUTH);
+    private JPanel initEastPanel() {
+        JPanel eastPanel = new JPanel(new GridLayout(6, 0, 4, 4));
+        eastPanel.setBackground(Color.gray);
+        eastPanel.setBorder(new BevelBorder(0));
+        eastPanel.add(buttonOne);
+        eastPanel.add(buttonCross);
+        buttonCross.setSelected(true);
+        buttonOne.setBackground(Color.gray);
+        buttonCross.setBackground(Color.gray);
         ////
-        bottomPanel.add(exitButton);
-        exitButton.addActionListener(new java.awt.event.ActionListener() {
+        eastPanel.add(initButton);
+        initButton.addActionListener(new java.awt.event.ActionListener() {
 
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                System.exit(0);
+                initArray();
             }
         });
-        exitButton.setText("Exit");
+        initButton.setText("Inicializuj");
         ////
-        bottomPanel.add(startButton);
+        eastPanel.add(startButton);
         startButton.addActionListener(new java.awt.event.ActionListener() {
 
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -93,7 +103,35 @@ public final class MainFrame extends JFrame {
             }
         });
         startButton.setText("Start");
+////
 
-        return bottomPanel;
+        eastPanel.add(stopButton);
+        stopButton.addActionListener(new java.awt.event.ActionListener() {
+
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                // TO DO STOP algoritmus
+            }
+        });
+        stopButton.setText("Stop");
+        ////
+        eastPanel.add(exitButton);
+        exitButton.addActionListener(new java.awt.event.ActionListener() {
+
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                System.exit(0);
+            }
+        });
+        exitButton.setText("Exit");
+
+
+        return eastPanel;
+    }
+
+    private void initArray() {
+        crossroads.initArray();
+    }
+
+    public boolean corss() {
+        return buttonCross.isSelected();
     }
 }

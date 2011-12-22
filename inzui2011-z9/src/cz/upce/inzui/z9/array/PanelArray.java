@@ -10,10 +10,10 @@
  */
 package cz.upce.inzui.z9.array;
 
+import cz.upce.inzui.z9.comp.PanelCrossroads;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.LayoutManager;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
  *
  * @author Marty
  */
-public class PanelArray extends javax.swing.JPanel {
+public final class PanelArray extends javax.swing.JPanel {
 
     private BufferedImage bulbOn = null;
     private BufferedImage bulbOff = null;
@@ -32,15 +32,12 @@ public class PanelArray extends javax.swing.JPanel {
     private PanelBulb[][] map = new PanelBulb[ROWS][COLUMS];
     private static int ROWS = 5;
     private static int COLUMS = 5;
+    private PanelCrossroads crossroads;
 
-    public PanelArray() {
+    public PanelArray(PanelCrossroads crossroads) {
+        this.crossroads = crossroads;
         this.setLayout(new GridLayout(ROWS, COLUMS, 2, 2));
-        for (int x = 0; x < ROWS; x++) {
-            for (int y = 0; y < COLUMS; y++) {
-                map[x][y] = new PanelBulb(x, y, this);
-                this.add(map[x][y]);
-            }
-        }
+        init();
         this.setBackground(Color.gray);
         this.setMinimumSize(new Dimension(168, 168));
     }
@@ -91,20 +88,33 @@ public class PanelArray extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 
-    void EvtOnBulb(int row, int colum) {
+    protected void EvtOnBulb(int row, int colum) {
         map[row][colum].negate();
-        if (row + 1 < ROWS) {
-            map[row + 1][colum].negate();
+        if (crossroads.cross()) {
+            if (row + 1 < ROWS) {
+                map[row + 1][colum].negate();
+            }
+            if (colum + 1 < COLUMS) {
+                map[row][colum + 1].negate();
+            }
+            if (row - 1 >= 0) {
+                map[row - 1][colum].negate();
+            }
+            if (colum - 1 >= 0) {
+                map[row][colum - 1].negate();
+            }
         }
-        if (colum + 1 < COLUMS) {
-            map[row][colum + 1].negate();
-        }
-        if (row - 1 >= 0) {
-            map[row - 1][colum].negate();
-        }
-        if (colum - 1 >= 0) {
-            map[row][colum - 1].negate();
-        }
+    }
 
+    public void init() {
+        this.removeAll();
+        for (int x = 0; x < ROWS; x++) {
+            for (int y = 0; y < COLUMS; y++) {
+                map[x][y] = new PanelBulb(x, y, this);
+                this.add(map[x][y]);
+            }
+        }
+        this.repaint();
+        this.revalidate();
     }
 }

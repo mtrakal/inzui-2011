@@ -16,13 +16,24 @@ import javax.swing.JPanel;
 public class PanelCrossroads extends JPanel {
 
     private InfoPanel infoPanel = new InfoPanel();
-    private PanelArray panelArray = new PanelArray();
+    private PanelArray panelArray;
+    private MainFrame mf;
 
-    public PanelCrossroads() {
+    public PanelCrossroads(MainFrame mf) {
+        this.mf=mf;
         this.setLayout(new BorderLayout());
         this.setBackground(Color.gray);
+        panelArray = new PanelArray(this);
         this.add(panelArray, BorderLayout.CENTER);
         this.add(infoPanel, BorderLayout.SOUTH);
         infoPanel.loggMessage("Ahoj tak uz nejak zacnem ne?");
+    }
+
+    public void initArray() {
+        panelArray.init();
+    }
+
+    public boolean cross() {
+        return mf.corss();
     }
 }
