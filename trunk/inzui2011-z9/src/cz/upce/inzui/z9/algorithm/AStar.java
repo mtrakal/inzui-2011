@@ -2,6 +2,7 @@ package cz.upce.inzui.z9.algorithm;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -16,6 +17,7 @@ public class AStar {
     private AbstractElement startingState;
     private AbstractElement goalState;
     private List<IRule> rules;
+    private int countState;
     private int countExpandedState;
 
     public AStar(AbstractElement startingState, AbstractElement goalState, List<IRule> rules) {
@@ -26,29 +28,52 @@ public class AStar {
         this.rules = rules;
 
         this.open.add(this.startingState);
-        this.countExpandedState = 1;
+        this.countState = 1;
+        this.countExpandedState = 0;
     }
 
     public boolean step() {
         if (this.open.isEmpty()) {
             return false;
         }
-
+        this.countExpandedState++;
         AbstractElement expand = this.open.poll();
         this.close.add(expand);
 
         List<AbstractElement> newStates = expand.expand(this.rules, this.goalState);
-        this.addOpen(newStates);
 
-        return !expand.equals(this.goalState);
+        this.addOpen(newStates);
+        if (expand.equals(this.goalState)) {
+            this.goalState = expand;
+            return false;
+        }
+        return true;
     }
 
     /**
      * Počet expandovaných stavů.
      * @return Počet expandovaných stavů.
      */
+    public int getCountState() {
+        return countState;
+    }
+
     public int getCountExpandedState() {
         return countExpandedState;
+    }
+
+    public AbstractElement getGoalState() {
+        return this.goalState;
+    }
+
+    public List<IRule> getSolution() {
+        List<IRule> result = new ArrayList<IRule>();
+        AbstractElement current = this.goalState;
+        while (current.getParent() != null) {
+            result.add(0, current.getUsedRule());
+            current = current.getParent();
+        }
+        return result;
     }
 
     /**
@@ -58,7 +83,7 @@ public class AStar {
     private void addOpen(List<AbstractElement> newStates) {
         newStates = this.checkMemory(newStates, this.open);
         newStates = this.checkMemory(newStates, this.close);
-        this.countExpandedState += newStates.size();
+        this.countState += newStates.size();
         this.open.addAll(newStates);
     }
 
