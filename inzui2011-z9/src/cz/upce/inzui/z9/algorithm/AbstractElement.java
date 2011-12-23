@@ -1,6 +1,7 @@
 package cz.upce.inzui.z9.algorithm;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -9,10 +10,17 @@ import java.util.List;
  */
 public abstract class AbstractElement<E> implements Comparable<AbstractElement<E>> {
 
-    protected E h;
-    protected E g;
-    protected AbstractElement<E> parent;
-    protected IRule<AbstractElement<E>> usedRule;
+    private E h;
+    private E g;
+    private AbstractElement<E> parent;
+    private IRule<AbstractElement<E>> usedRule;
+
+    public AbstractElement(E h, E g, AbstractElement<E> parent, IRule<AbstractElement<E>> usedRule) {
+        this.h = h;
+        this.g = g;
+        this.parent = parent;
+        this.usedRule = usedRule;
+    }
 
     /**
      * Vrací seznam všech stavů, které mohou nastat podle seznamu pravidel.
@@ -23,9 +31,16 @@ public abstract class AbstractElement<E> implements Comparable<AbstractElement<E
     public List<AbstractElement<E>> expand(List<IRule<AbstractElement<E>>> rules, AbstractElement<E> goalState) {
         List<AbstractElement<E>> result = new ArrayList<AbstractElement<E>>();
         for (IRule<AbstractElement<E>> rule : rules) {
-            AbstractElement<E> element = rule.evaluateRule(this, goalState);
-            if (element != null) {
-                result.add(element);
+            List<AbstractElement<E>> elements = rule.evaluateRule(this, goalState);
+            if (elements != null) {
+                for (Iterator<AbstractElement<E>> it = elements.iterator(); it.hasNext();) {
+                    AbstractElement<E> element = it.next();
+                    if (!result.contains(element)) {
+                        result.add(element);
+                    }
+
+                }
+//                result.addAll(element);
             }
         }
         return result;
@@ -47,6 +62,22 @@ public abstract class AbstractElement<E> implements Comparable<AbstractElement<E
         hash = 43 * hash + (this.parent != null ? this.parent.hashCode() : 0);
         hash = 43 * hash + (this.usedRule != null ? this.usedRule.hashCode() : 0);
         return hash;
+    }
+
+    protected void setG(E g) {
+        this.g = g;
+    }
+
+    protected void setH(E h) {
+        this.h = h;
+    }
+
+    protected void setParent(AbstractElement<E> parent) {
+        this.parent = parent;
+    }
+
+    protected void setUsedRule(IRule<AbstractElement<E>> usedRule) {
+        this.usedRule = usedRule;
     }
 
     public E getG() {
