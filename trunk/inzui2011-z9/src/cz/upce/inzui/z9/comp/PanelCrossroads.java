@@ -20,7 +20,7 @@ public class PanelCrossroads extends JPanel {
     private MainFrame mf;
 
     public PanelCrossroads(MainFrame mf) {
-        this.mf=mf;
+        this.mf = mf;
         this.setLayout(new BorderLayout());
         this.setBackground(Color.gray);
         panelArray = new PanelArray(this);
@@ -29,11 +29,29 @@ public class PanelCrossroads extends JPanel {
         infoPanel.loggMessage("Ahoj tak uz nejak zacnem ne?");
     }
 
+    public void addLoggMessage(String message) {
+        this.infoPanel.loggMessage(message);
+    }
+
+    public void addErrorMessage(String message) {
+        this.infoPanel.loggError(message);
+    }
+
     public void initArray() {
         panelArray.init();
     }
 
     public boolean cross() {
         return mf.corss();
+    }
+
+    public boolean[][] toArray() {
+        boolean[][] array = new boolean[this.panelArray.getROWS()][this.panelArray.getCOLUMS()];
+        for (int x = 0; x < this.panelArray.getROWS(); x++) {
+            for (int y = 0; y < this.panelArray.getCOLUMS(); y++) {
+                array[x][y] = this.panelArray.isLightIsOn(x, y);
+            }
+        }
+        return array;
     }
 }

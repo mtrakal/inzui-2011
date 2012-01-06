@@ -6,7 +6,7 @@ import java.awt.Point;
 
 /**
  *
- * @author Kaciš
+ * @author KaciĹˇ
  */
 public class LightsOut extends AbstractElement<Integer> {
 
@@ -155,5 +155,13 @@ public class LightsOut extends AbstractElement<Integer> {
     @Override
     public int compareTo(AbstractElement<Integer> o) {
         return this.getValueHeuristicFunction().compareTo(o.getValueHeuristicFunction());
+    }
+
+    public void setLights(boolean[][] array) {
+        for (int x = 0; x < array.length; x++) {
+            for (int y = 0; y < array[x].length; y++) {
+                this.table.set(array[x][y], y, x);
+            }
+        }
     }
 }

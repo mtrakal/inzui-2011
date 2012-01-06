@@ -23,15 +23,12 @@ import java.util.List;
 public class test {
 
     public static void main(String[] args) {
-        LightsOut goalState = new LightsOut(4);
-        LightsOut startingState = new LightsOut(4);
-        startingState.edit(new Point(0, 3));
-        startingState.edit(new Point(1, 2));
-        startingState.edit(new Point(2, 2));
-        startingState.edit(new Point(3, 3));
+        LightsOut goalState = new LightsOut(5, 6);
+        LightsOut startingState = new LightsOut(5, 6);
+        startingState.edit(new Point(0, 0));
 
         System.out.println(startingState);
-        
+
         List<IRule> rules = new ArrayList<IRule>();
         rules.add(new Rule1("Klikni na svitící."));
         rules.add(new Rule2("Klikni vlevo od svitící."));
