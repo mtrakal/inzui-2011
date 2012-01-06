@@ -4,12 +4,23 @@
  */
 package cz.upce.inzui.z9.comp;
 
+import cz.upce.inzui.z9.algorithm.AStar;
+import cz.upce.inzui.z9.algorithm.IRule;
+import cz.upce.inzui.z9.lightsOut.LightsOut;
+import cz.upce.inzui.z9.lightsOut.rule.Rule1;
+import cz.upce.inzui.z9.lightsOut.rule.Rule2;
+import cz.upce.inzui.z9.lightsOut.rule.Rule3;
+import cz.upce.inzui.z9.lightsOut.rule.Rule4;
+import cz.upce.inzui.z9.lightsOut.rule.Rule5;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 
@@ -100,6 +111,32 @@ public final class MainFrame extends JFrame {
 
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 // TO DO spust algoritmus
+
+                LightsOut goalState = new LightsOut(5);
+                LightsOut startingState = new LightsOut(5);
+                startingState.setLights(crossroads.toArray());
+
+                System.out.println(startingState);
+
+                List<IRule> rules = new ArrayList<IRule>();
+                rules.add(new Rule1("Klikni na svitící."));
+                rules.add(new Rule2("Klikni vlevo od svitící."));
+                rules.add(new Rule3("Klikni vpravo od svitící."));
+                rules.add(new Rule4("Klikni nad svitící."));
+                rules.add(new Rule5("Klikni pod svitící."));
+
+                AStar as = new AStar(startingState, goalState, rules);
+                do {
+                } while (as.step());
+
+                crossroads.addLoggMessage("Počet expandovaných stavů: " + as.getCountExpandedState());
+                crossroads.addLoggMessage("Počet stavů: " + as.getCountState());
+                for (Iterator<IRule> it = as.getSolution().iterator(); it.hasNext();) {
+                    crossroads.addLoggMessage(it.next().toString());
+                }
+                if (as.getSolution().isEmpty()) {
+                    crossroads.addErrorMessage("Nemá řešení.");
+                }
             }
         });
         startButton.setText("Start");

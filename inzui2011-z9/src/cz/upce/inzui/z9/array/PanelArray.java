@@ -106,6 +106,10 @@ public final class PanelArray extends javax.swing.JPanel {
         }
     }
 
+    public boolean isLightIsOn(int row, int colum) {
+        return this.map[row][colum].isLightIsOn();
+    }
+
     public void init() {
         this.removeAll();
         for (int x = 0; x < ROWS; x++) {
@@ -116,5 +120,13 @@ public final class PanelArray extends javax.swing.JPanel {
         }
         this.repaint();
         this.revalidate();
+    }
+
+    public int getCOLUMS() {
+        return COLUMS;
+    }
+
+    public int getROWS() {
+        return ROWS;
     }
 }

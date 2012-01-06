@@ -18,12 +18,12 @@ import java.awt.Graphics;
  * @author Marty
  */
 public class PanelBulb extends javax.swing.JPanel {
-    
+
     private boolean lightIsOn = false;
     private PanelArray container;
     private int row;
     private int colum;
-    
+
     public PanelBulb(int row, int colum, PanelArray container) {
         this.setBackground(Color.gray);
         this.row = row;
@@ -31,12 +31,12 @@ public class PanelBulb extends javax.swing.JPanel {
         this.container = container;
         initComponents();
     }
-    
+
     protected void negate() {
         lightIsOn = !lightIsOn;
         repaint();
     }
-    
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -45,6 +45,10 @@ public class PanelBulb extends javax.swing.JPanel {
         } else {
             g.drawImage(container.getBulbOff(), 0, 0, null);
         }
+    }
+
+    public boolean isLightIsOn() {
+        return lightIsOn;
     }
 
     /** This method is called from within the constructor to
