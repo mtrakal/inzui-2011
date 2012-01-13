@@ -1,0 +1,47 @@
+#Jak pracuje algoritmus.
+
+=Algoritmus=
+
+Je použit algoritmus prohledávání stavového prostoru (A`*`).
+==Popis A`*`==
+  # Počáteční stav se vloží do paměti OPEN.
+  # Je-li OPEN prázdný, řešení neexistuje (konec prohledávaní).
+  # Z paměti OPEN se vybere hodnota s nejmenší hodnotou f(). Pokud je těchto stavů více zvolte jeden náhodně.
+  # Vybraný stav odstraní z paměti OPEN a vloží do paměti CLOSE.
+  # Jeli vybraný stav cílový, je nalezeno řešení (konec prohledávání).
+  # Expanduje se vybraný stav (vygenerují se všechny možné následující stavy). Vygenerované hodnoty se vloží do paměti OPEN (zamezuje se duplicitě a zvýhodňují se prvky s lepší hodnotou f()).
+  # Přejít na krok 2.
+
+= Příklad =
+
+Funkčnost algoritmu budu prezentovat na ukázkovém příkladu. Pokud zde budu používat souřadnice, počátek souřadnic je v levém horním rohu.
+----
+Výchozí stav:<br>
+http://img507.imageshack.us/img507/2420/vchozstav.png
+<br>
+Cílový stav:<br>
+http://img834.imageshack.us/img834/6131/vchozstav1.png<br>
+Řešení:
+  * Zhasnout žárovku na souřadnicích 0,0.
+  * Zhasnout žárovku na souřadnicích 1,1.
+  * Zhasnout žárovku na souřadnicích 2,2.
+
+== Pravidla ==
+
+Seznam pravidel, které jsou použity v algoritmu. (Souřadnice [x,y] označují žárovku na kterou se má kliknout).
+  * Stejné souřadnice se v jedné větvi používají pouze jednou.
+  * Klikni na svíticí žárovku se souřadnicemi [x,y].
+  * Klikni pod svíticí žárovku se souřadnicemi [x,y].
+  * Klikni nad svíticí žárovku se souřadnicemi [x,y].
+  * Klikni vpravo svíticí žárovku se souřadnicemi [x,y]. 
+  * Klikni vlevo svíticí žárovku se souřadnicemi [x,y].
+
+== Výpočet hodnoty h() ==
+Hodnota h() se vypočítá následujícím postupem:
+  * Po hrací ploše se posouvá maska. Do masky se započítávají pouze ty pole které nejsou mimo hrací plochu. 
+http://img534.imageshack.us/img534/8813/vchozstav2.png
+  * Střed masky se posouvá po hracím poli. Dokud nevystřídá všechny pole hracího pole.
+  * Pokud jsou v masce všechny žárovky rozsvíceny, tak se všechny zhasnou.
+http://img141.imageshack.us/img141/8485/vchozstav3.png
+http://img545.imageshack.us/img545/6944/vchozstav4.png
+  * Když se posune maska až na konec spočítají se zbylé rozsvícené žárovky. Tak dostaneme hodnotu h().
