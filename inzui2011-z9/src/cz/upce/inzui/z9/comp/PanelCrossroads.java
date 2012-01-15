@@ -20,7 +20,6 @@ public class PanelCrossroads extends JPanel {
     private MainFrame mf;
     
     public PanelCrossroads(MainFrame mf, int rows, int colums) {
-        System.out.println("MF MF");
         this.mf = mf;
         this.setLayout(new BorderLayout());
         this.setBackground(Color.gray);
@@ -46,9 +45,9 @@ public class PanelCrossroads extends JPanel {
     }
     
     public boolean[][] toArray() {
-        boolean[][] array = new boolean[this.panelArray.getROWS()][this.panelArray.getCOLUMS()];
-        for (int x = 0; x < this.panelArray.getROWS(); x++) {
-            for (int y = 0; y < this.panelArray.getCOLUMS(); y++) {
+        boolean[][] array = new boolean[this.panelArray.getRows()][this.panelArray.getColums()];
+        for (int x = 0; x < this.panelArray.getRows(); x++) {
+            for (int y = 0; y < this.panelArray.getColums(); y++) {
                 array[x][y] = this.panelArray.isLightIsOn(x, y);
             }
         }

@@ -214,8 +214,8 @@ public final class MainFrame extends JFrame {
 
             progresBar.setValue(0);
             crossroads.addLoggMessage("Start finding solution");
-            LightsOut goalState = new LightsOut(5);
-            LightsOut startingState = new LightsOut(5);
+            LightsOut goalState = new LightsOut(rows, colums);
+            LightsOut startingState = new LightsOut(rows, colums);
             startingState.setLights(crossroads.toArray());
 
             List<IRule> rules = new ArrayList<IRule>();
