@@ -125,11 +125,11 @@ public final class PanelArray extends javax.swing.JPanel {
         this.revalidate();
     }
 
-    public int getCOLUMS() {
+    public int getColums() {
         return colums;
     }
 
-    public int getROWS() {
+    public int getRows() {
         return rows;
     }
 
