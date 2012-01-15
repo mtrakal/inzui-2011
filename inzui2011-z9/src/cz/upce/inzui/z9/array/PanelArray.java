@@ -29,14 +29,17 @@ public final class PanelArray extends javax.swing.JPanel {
     private BufferedImage bulbOn = null;
     private BufferedImage bulbOff = null;
     protected static Logger logger = Logger.getLogger(PanelArray.class);
-    private PanelBulb[][] map = new PanelBulb[ROWS][COLUMS];
-    private static int ROWS = 5;
-    private static int COLUMS = 5;
+    private PanelBulb[][] map = null;
+    private int rows = 0;
+    private int colums = 0;
     private PanelCrossroads crossroads;
 
-    public PanelArray(PanelCrossroads crossroads) {
+    public PanelArray(PanelCrossroads crossroads, int rows, int colums) {
+        this.rows = rows;
+        this.colums = colums;
+        map = new PanelBulb[rows][colums];
         this.crossroads = crossroads;
-        this.setLayout(new GridLayout(ROWS, COLUMS, 2, 2));
+        this.setLayout(new GridLayout(rows, colums, 2, 2));
         init();
         this.setBackground(Color.gray);
         this.setMinimumSize(new Dimension(168, 168));
@@ -91,10 +94,10 @@ public final class PanelArray extends javax.swing.JPanel {
     protected void EvtOnBulb(int row, int colum) {
         map[row][colum].negate();
         if (crossroads.cross()) {
-            if (row + 1 < ROWS) {
+            if (row + 1 < rows) {
                 map[row + 1][colum].negate();
             }
-            if (colum + 1 < COLUMS) {
+            if (colum + 1 < colums) {
                 map[row][colum + 1].negate();
             }
             if (row - 1 >= 0) {
@@ -112,8 +115,8 @@ public final class PanelArray extends javax.swing.JPanel {
 
     public void init() {
         this.removeAll();
-        for (int x = 0; x < ROWS; x++) {
-            for (int y = 0; y < COLUMS; y++) {
+        for (int x = 0; x < rows; x++) {
+            for (int y = 0; y < colums; y++) {
                 map[x][y] = new PanelBulb(x, y, this);
                 this.add(map[x][y]);
             }
@@ -123,11 +126,11 @@ public final class PanelArray extends javax.swing.JPanel {
     }
 
     public int getCOLUMS() {
-        return COLUMS;
+        return colums;
     }
 
     public int getROWS() {
-        return ROWS;
+        return rows;
     }
 
     boolean isLookingForSolution() {

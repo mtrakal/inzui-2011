@@ -14,36 +14,37 @@ import javax.swing.JPanel;
  * @author martin.kaplan
  */
 public class PanelCrossroads extends JPanel {
-
+    
     private InfoPanel infoPanel = new InfoPanel();
     private PanelArray panelArray;
     private MainFrame mf;
-
-    public PanelCrossroads(MainFrame mf) {
+    
+    public PanelCrossroads(MainFrame mf, int rows, int colums) {
+        System.out.println("MF MF");
         this.mf = mf;
         this.setLayout(new BorderLayout());
         this.setBackground(Color.gray);
-        panelArray = new PanelArray(this);
+        panelArray = new PanelArray(this, rows, colums);
         this.add(panelArray, BorderLayout.CENTER);
         this.add(infoPanel, BorderLayout.SOUTH);
     }
-
+    
     public void addLoggMessage(String message) {
         this.infoPanel.loggMessage(message);
     }
-
+    
     public void addErrorMessage(String message) {
         this.infoPanel.loggError(message);
     }
-
+    
     public void initArray() {
         panelArray.init();
     }
-
+    
     public boolean cross() {
         return mf.corss();
     }
-
+    
     public boolean[][] toArray() {
         boolean[][] array = new boolean[this.panelArray.getROWS()][this.panelArray.getCOLUMS()];
         for (int x = 0; x < this.panelArray.getROWS(); x++) {
@@ -53,7 +54,7 @@ public class PanelCrossroads extends JPanel {
         }
         return array;
     }
-
+    
     public boolean isLookingForSolution() {
         return mf.isLookingForSolution();
     }
