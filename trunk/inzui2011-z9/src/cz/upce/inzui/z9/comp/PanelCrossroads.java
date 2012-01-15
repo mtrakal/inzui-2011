@@ -26,7 +26,6 @@ public class PanelCrossroads extends JPanel {
         panelArray = new PanelArray(this);
         this.add(panelArray, BorderLayout.CENTER);
         this.add(infoPanel, BorderLayout.SOUTH);
-        infoPanel.loggMessage("Ahoj tak uz nejak zacnem ne?");
     }
 
     public void addLoggMessage(String message) {
@@ -53,5 +52,9 @@ public class PanelCrossroads extends JPanel {
             }
         }
         return array;
+    }
+
+    public boolean isLookingForSolution() {
+        return mf.isLookingForSolution();
     }
 }

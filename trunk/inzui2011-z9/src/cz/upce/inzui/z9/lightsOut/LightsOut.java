@@ -59,7 +59,8 @@ public class LightsOut extends AbstractElement<Integer> {
     }
 
     public void edit(Point point) {
-        if (point.x >= 0 && point.x < this.table.getCapacityX() && point.y >= 0 && point.y < this.table.getCapacityY()) {
+        if (point.x >= 0 && point.x < this.table.getCapacityX()
+                && point.y >= 0 && point.y < this.table.getCapacityY()) {
             this.table.set(!this.table.get(point.x, point.y), point.x, point.y);
         }
     }

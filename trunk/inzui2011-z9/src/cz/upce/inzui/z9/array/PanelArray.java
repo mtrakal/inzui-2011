@@ -129,4 +129,8 @@ public final class PanelArray extends javax.swing.JPanel {
     public int getROWS() {
         return ROWS;
     }
+
+    boolean isLookingForSolution() {
+        return crossroads.isLookingForSolution();
+    }
 }

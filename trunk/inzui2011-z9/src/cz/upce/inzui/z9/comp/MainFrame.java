@@ -29,23 +29,27 @@ import javax.swing.border.BevelBorder;
  * @author martin.kaplan
  */
 public final class MainFrame extends JFrame {
-
+    
     public static String configFile = "config.properties";
     public static final String LOG4J_CONSOLE_LOGGER = "console";
     public static final String LOG4J_AWTCONSOLE_APPENDER = "AWTCONSOLE";
     public static final String LOG4J_APP_LOGGER = "app";
-    public static int P_WIDTH = 410;
-    public static int P_HEIGHT = 410;
+    public static int P_WIDTH = 400;
+    public static int P_HEIGHT = 425;
     private PanelCrossroads crossroads;
     //
     private JButton exitButton = new JButton();
     private JButton initButton = new JButton();
     private JButton stopButton = new JButton();
+    private JProgressBar progresBar = new JProgressBar();
     private JButton startButton = new JButton();
     private JRadioButton buttonOne = new JRadioButton("One");
     private JRadioButton buttonCross = new JRadioButton("Cross");
     private ButtonGroup buttonGroup = new ButtonGroup();
-
+    // algor
+    private Thread t = null;
+    private boolean lookingForSolution = false;
+    
     public MainFrame() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("INZUI 2011");
@@ -57,8 +61,16 @@ public final class MainFrame extends JFrame {
         this.setLayout(new BorderLayout());
         this.add(crossroads, BorderLayout.CENTER);
         this.add(initEastPanel(), BorderLayout.EAST);
+        JPanel panelProg = new JPanel(new BorderLayout());
+        panelProg.add(new JLabel("state: "), BorderLayout.WEST);
+        panelProg.add(progresBar, BorderLayout.CENTER);
+        this.add(panelProg, BorderLayout.SOUTH);
     }
-
+    
+    public boolean isLookingForSolution() {
+        return lookingForSolution;
+    }
+    
     public void setLocationOnMiddle() {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         Point location = new Point();
@@ -72,7 +84,7 @@ public final class MainFrame extends JFrame {
      */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
-
+            
             public void run() {
                 UIManager.put("TabbedPane.borderHightlightColor", UIManager.getColor("TabbedPane.unselectedBackground"));
                 UIManager.put("TabbedPane.contentAreaColor", Color.gray);
@@ -86,7 +98,7 @@ public final class MainFrame extends JFrame {
             }
         });
     }
-
+    
     private JPanel initEastPanel() {
         JPanel eastPanel = new JPanel(new GridLayout(6, 0, 4, 4));
         eastPanel.setBackground(Color.gray);
@@ -99,76 +111,119 @@ public final class MainFrame extends JFrame {
         ////
         eastPanel.add(initButton);
         initButton.addActionListener(new java.awt.event.ActionListener() {
-
+            
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 initArray();
+                progresBar.setValue(0);
+                startButton.setEnabled(true);
             }
         });
-        initButton.setText("Inicializuj");
+        initButton.setText("Clear");
         ////
         eastPanel.add(startButton);
         startButton.addActionListener(new java.awt.event.ActionListener() {
-
+            
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                // TO DO spust algoritmus
-
-                LightsOut goalState = new LightsOut(5);
-                LightsOut startingState = new LightsOut(5);
-                startingState.setLights(crossroads.toArray());
-
-                System.out.println(startingState);
-
-                List<IRule> rules = new ArrayList<IRule>();
-                rules.add(new Rule1("Klikni na svitící."));
-                rules.add(new Rule2("Klikni vlevo od svitící."));
-                rules.add(new Rule3("Klikni vpravo od svitící."));
-                rules.add(new Rule4("Klikni nad svitící."));
-                rules.add(new Rule5("Klikni pod svitící."));
-
-                AStar as = new AStar(startingState, goalState, rules);
-                do {
-                } while (as.step());
-
-                crossroads.addLoggMessage("Počet expandovaných stavů: " + as.getCountExpandedState());
-                crossroads.addLoggMessage("Počet stavů: " + as.getCountState());
-                for (Iterator<IRule> it = as.getSolution().iterator(); it.hasNext();) {
-                    crossroads.addLoggMessage(it.next().toString());
-                }
-                if (as.getSolution().isEmpty()) {
-                    crossroads.addErrorMessage("Nemá řešení.");
-                }
+                new Thread(new SolutionManager()).start();
             }
         });
         startButton.setText("Start");
-////
-
+        ////
         eastPanel.add(stopButton);
         stopButton.addActionListener(new java.awt.event.ActionListener() {
-
+            
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                // TO DO STOP algoritmus
+                if (t != null) {
+                    t.stop();
+                    ableButtons(true);
+                    progresBar.setValue(0);
+                }
             }
         });
         stopButton.setText("Stop");
+        stopButton.setEnabled(false);
         ////
         eastPanel.add(exitButton);
         exitButton.addActionListener(new java.awt.event.ActionListener() {
-
+            
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 System.exit(0);
             }
         });
         exitButton.setText("Exit");
-
-
+        
+        
         return eastPanel;
     }
-
+    
     private void initArray() {
         crossroads.initArray();
     }
-
+    
     public boolean corss() {
         return buttonCross.isSelected();
+    }
+    
+    private void ableButtons(boolean state) {
+        stopButton.setEnabled(!state);
+        startButton.setEnabled(state);
+        initButton.setEnabled(state);
+    }
+
+    // vnitrni trida - algoritmus
+    private class SolutionManager implements Runnable {
+        
+        public SolutionManager() {
+            lookingForSolution = true;
+        }
+        
+        @Override
+        public void run() {
+            ableButtons(false);
+            
+            progresBar.setValue(0);
+            crossroads.addLoggMessage("Start finding solution");
+            LightsOut goalState = new LightsOut(5);
+            LightsOut startingState = new LightsOut(5);
+            startingState.setLights(crossroads.toArray());
+            
+            List<IRule> rules = new ArrayList<IRule>();
+            rules.add(new Rule1("Klikni na svitící."));
+            rules.add(new Rule2("Klikni vlevo od svitící."));
+            rules.add(new Rule3("Klikni vpravo od svitící."));
+            rules.add(new Rule4("Klikni nad svitící."));
+            rules.add(new Rule5("Klikni pod svitící."));
+            
+            AStar as = new AStar(startingState, goalState, rules);
+            byte i = 0;
+            byte pom = 0;
+            progresBar.setValue(i);
+            do {
+                pom++;
+                if (pom > 126) {
+                    pom = 0;
+                    progresBar.setValue(i++);
+                }
+                if (i > 95) {
+                    i = 5;
+                }
+            } while (as.step());
+            progresBar.setValue(98);
+            crossroads.addLoggMessage("Počet expandovaných stavů: " + as.getCountExpandedState());
+            crossroads.addLoggMessage("Počet stavů: " + as.getCountState());
+            progresBar.setValue(100);
+            for (Iterator<IRule> it = as.getSolution().iterator(); it.hasNext();) {
+                crossroads.addLoggMessage(it.next().toString());
+            }
+            if (as.getSolution().isEmpty()) {
+                crossroads.addErrorMessage("Nemá řešení.");
+            }
+            end();
+        }
+        
+        private void end() {
+            ableButtons(true);
+            lookingForSolution = false;
+        }
     }
 }
