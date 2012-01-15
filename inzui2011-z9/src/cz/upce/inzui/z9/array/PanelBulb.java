@@ -33,6 +33,7 @@ public class PanelBulb extends javax.swing.JPanel {
     }
 
     protected void negate() {
+
         lightIsOn = !lightIsOn;
         repaint();
     }
@@ -70,7 +71,9 @@ public class PanelBulb extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-    container.EvtOnBulb(row, colum);
+    if (!container.isLookingForSolution()) {
+        container.EvtOnBulb(row, colum);
+    }
 }//GEN-LAST:event_formMouseClicked
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
